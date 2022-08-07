@@ -1,0 +1,16 @@
+{
+  
+  "production": {
+    "username": "root",
+    "password": "juan",
+    "database": "shifter",
+    "host": "localhost",
+    "dialect": "mysql"
+  },"define": {
+    "timestamps": false,
+
+
+    
+    "undescored": true
+  }
+}

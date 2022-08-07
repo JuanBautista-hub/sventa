@@ -1,0 +1,27 @@
+
+
+  <p-dialog header="Producto" [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
+  	<form class="card p-fluid" [formGroup]="formProducto" >
+			<div class="field">
+				<label htmlFor="name1">Nombre del producto</label>
+				<input pInputText id="name1" type="text"  formControlName="Nombre"/>
+			</div>
+			<div class="field">
+				<label htmlFor="email1">Descripcion del producto</label>
+				<input pInputText id="email1" type="text"  formControlName="Descripcion"/>
+			</div>
+			<div class="field">
+				<label htmlFor="age1">Precio de fabrica</label>
+				<input pInputText id="age1" type="text"  formControlName="PrecioCamion"/>
+			</div>
+      <div class="field">
+				<label htmlFor="age1">Precio al publico</label>
+				<input pInputText id="age1" type="text"  formControlName="PrecioPublico"/>
+			</div>
+
+    </form>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="onSubmit()"   label="Guardar" ></p-button>
+      <p-button icon="pi pi-times" (click)="displayBasic=false" label="Cancelar" styleClass="p-button-text"></p-button>
+  </ng-template>
+  </p-dialog>
