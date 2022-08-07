@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {  PrimeNGConfig } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { FormProductoComponent } from '../componentes/form-producto/form-producto.component';
 import { ProductoService } from '../service/producto.service';
@@ -22,7 +22,10 @@ export class ListaProductoComponent implements OnInit {
 
   position: string = '';
   @ViewChild(FormProductoComponent) formulario!: FormProductoComponent
-  constructor(private _productoService: ProductoService, private primengConfig: PrimeNGConfig,private confirmationService: ConfirmationService) { }
+  constructor(private _productoService: ProductoService,
+    private primengConfig: PrimeNGConfig,
+    private confirmationService: ConfirmationService,
+    private service: MessageService) { }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
@@ -51,7 +54,7 @@ export class ListaProductoComponent implements OnInit {
       PrecioPublico: "$" + data.PrecioPublico
     }
   }
-  createProduct(){
+  createProduct() {
     this.formulario.displayBasic = true;
     this.formulario.formProducto.reset()
     this.formulario.ProductoID = 0
@@ -69,13 +72,30 @@ export class ListaProductoComponent implements OnInit {
       header: 'Delete Confirmation',
       icon: 'pi pi-info-circle',
       accept: () => {
-          this.msgs = [{severity:'info', summary:'Confirmed', detail:'Record deleted'}];
+        this.DeleteProduct(product.ProductoID)
       },
       reject: () => {
-          this.msgs = [{severity:'info', summary:'Rejected', detail:'You have rejected'}];
+
+        this.service.add({ key: 'info', severity: 'info', summary: 'action cancelable', detail: 's' });
       }
-  });
+    });
   }
 
+  DeleteProduct(id: number) {
+    this._productoService.deleteProducto(id).subscribe({
+      next: (res) => {
+        this.ngOnInit();
+        this.service.add({ key: 'info', severity: 'info', summary: 'Repuesta', detail: res.message });
+      }, error: (error) => {
+        this.service.add({
+          key: 'info', severity: 'error', summary: 'Repuesta', detail: error
+        });
+      }
+    })
 
+  }
+  Reload(_event: any) {
+
+    this.ngOnInit()
+  }
 }

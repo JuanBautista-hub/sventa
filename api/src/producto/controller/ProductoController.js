@@ -1,5 +1,5 @@
 
-const {CreateProducto,GetProducto, UpdateProduct,GetProductoByID} = require('../service/producto.service');
+const {CreateProducto,GetProducto, UpdateProduct,GetProductoByID,DeleteProduct} = require('../service/producto.service');
 
 const ProductoNuevo = async (req, res, next) => {
 
@@ -41,4 +41,17 @@ const ProductUpdate = async(req,res ,next)=>{
         next(error)
     }
 }
-module.exports = { ProductoNuevo ,getProducto,ProductUpdate,getProductoByID}
+
+const ProductDelete = async(req,res,next)=>{
+    const {id} = req.params;
+try {
+    const deleteItem = await DeleteProduct(id);
+    res.json(deleteItem)
+
+} catch (error) {
+    next(error);
+}
+
+}
+
+module.exports = { ProductoNuevo ,getProducto,ProductUpdate,getProductoByID,ProductDelete}

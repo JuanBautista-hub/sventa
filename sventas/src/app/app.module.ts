@@ -19,7 +19,18 @@ import {TableModule} from 'primeng/table';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TabMenuModule} from 'primeng/tabmenu';
 
+import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { ToolbarComponent } from './componentes/toolbar/toolbar.component';
+
+import { ToolbarModule } from 'primeng/toolbar';
+import { MegaMenuModule } from 'primeng/megamenu';
+import { MenuModule } from 'primeng/menu';
+import { MenubarModule } from 'primeng/menubar';
+
+import { PanelMenuModule } from 'primeng/panelmenu';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +38,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     SuscriptoresComponent,
     FormProductoComponent,
     ListaProductoComponent,
+    ToolbarComponent,
 
   ],
   imports: [
@@ -42,7 +54,16 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     DialogModule,
     BrowserAnimationsModule,
     TabMenuModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    MessagesModule,
+    MessageModule,
+    ToastModule,
+    ToolbarModule,
+    MegaMenuModule,
+ MenuModule,
+MenubarModule,
+PanelMenuModule
+
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AdminInterceptor, multi: true, }],
   bootstrap: [AppComponent]

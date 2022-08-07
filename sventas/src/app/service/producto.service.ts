@@ -47,6 +47,16 @@ export class ProductoService {
       catchError((err) => this.handlerError(err.error))
     );
   }
+
+ deleteProducto(id:number): Observable<any> {
+    return this.http.delete<any>(`${environment.API_KEY}/producto/${id}`).pipe(
+      map((data:any) => {
+        return data;
+      }),
+      catchError((err) => this.handlerError(err.error))
+    );
+  }
+
   private handlerError(error: Error): Observable<never> {
     let errorMessage = 'An error ocurred retrienving data';
     if (error) {

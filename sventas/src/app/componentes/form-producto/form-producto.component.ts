@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PrimeNGConfig } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { ProductoService } from 'src/app/service/producto.service';
 
 @Component({
@@ -12,13 +12,16 @@ export class FormProductoComponent implements OnInit {
   submitted: boolean = false;
   formProducto: FormGroup = new FormGroup({});
   @Input('ProductoID') ProductoID: number = 0
+
+  @Output() action = new EventEmitter<string>();
   displayBasic: boolean = false;
 
   position: string = '';
   constructor(
     private formBuilder: FormBuilder,
     private primengConfig: PrimeNGConfig,
-    private productoService: ProductoService) { }
+    private productoService: ProductoService,
+    private service: MessageService) { }
 
   ngOnInit(): void {
 
@@ -39,32 +42,36 @@ export class FormProductoComponent implements OnInit {
       PrecioPublico: this.formProducto.value.PrecioPublico
     };
     if (this.ProductoID > 0) {
-      this.productoService.pachtProducto(body,this.ProductoID).subscribe((data) => {
-       this.displayBasic=false
+      this.productoService.pachtProducto(body, this.ProductoID).subscribe((res) => {
+        this.displayBasic = false
+        this.action.emit();
+        this.service.add({ key: 'info', severity: 'info', summary: 'Repuesta', detail: res.message });
       })
     }
-    else{
+    else {
 
       if (this.formProducto.invalid) {
         return;
       }
 
-      this.productoService.create(body).subscribe((data) => {
-        this.displayBasic=false
+      this.productoService.create(body).subscribe((res) => {
+        this.displayBasic = false
+        this.action.emit();
+        this.service.add({ key: 'info', severity: 'info', summary: 'Repuesta', detail: res.message });
       })
     }
 
   }
 
   ProductEdit() {
-    console.log(this.ProductoID)
+
     this.productoService.getProductoByID(this.ProductoID).subscribe((res) => {
       this.formProducto.patchValue({
         Nombre: res.Nombre,
         Descripcion: res.Descripcion,
         PrecioCamion: res.PrecioCamion,
         PrecioPublico: res.PrecioPublico
-      })
+      });
     })
   }
 }
